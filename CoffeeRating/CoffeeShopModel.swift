@@ -24,9 +24,8 @@ enum PriceRange: Int, Codable {
 
 struct DaySchedule: Codable {
     let dayOfTheWeek : String
-    let openingTime : Date
-    let closingTime : Date
-    let isClosed : Bool
+    let openingTime : String
+    let closingTime : String
 }
 
 class CoffeeShopModel: Identifiable, Codable {
@@ -38,6 +37,7 @@ class CoffeeShopModel: Identifiable, Codable {
     let coordinate: CLLocationCoordinate2D
     let phoneNumber: String
     let openingHours: [DaySchedule]
+    let isOpenNow: Bool
     let amenities: Set<Ameniity> // set to have it always sorted the same way for all places
     let priceRange: PriceRange
 
@@ -50,6 +50,7 @@ class CoffeeShopModel: Identifiable, Codable {
         case latitude
         case longitude
         case phoneNumber
+        case isOpenNow
         case openingHours
         case amenities
         case priceRange
@@ -66,10 +67,38 @@ class CoffeeShopModel: Identifiable, Codable {
         self.longitude = try container.decode(Double.self, forKey: .longitude)
         self.coordinate = CLLocationCoordinate2D(latitude: self.latitude, longitude: self.longitude)
         phoneNumber = try container.decode(String.self, forKey: .phoneNumber)
+        self.isOpenNow = try container.decode(Bool.self, forKey: .isOpenNow)
         openingHours = try container.decode([DaySchedule].self, forKey: .openingHours)
         amenities = Set(try container.decode([Ameniity].self, forKey: .amenities))
         priceRange = try container.decode(PriceRange.self, forKey: .priceRange)
         averageRating = try container.decode(Double.self, forKey: .averageRating)
         totalNumberOfRatings = try container.decode(Int.self, forKey: .totalNumberOfRatings)
     }
+
+    init(
+        name: String,
+        address: String,
+        latitude: Double,
+        longitude: Double,
+        phoneNumber: String,
+        isOpenNow: Bool,
+        openingHours: [DaySchedule],
+        amenities: Set<Ameniity>,
+        priceRange: PriceRange,
+        averageRating: Double,
+        totalNumberOfRatings: Int) {
+            self.id = UUID()
+            self.name = name
+            self.address = address
+            self.latitude = latitude
+            self.longitude = longitude
+            self.coordinate = CLLocationCoordinate2D(latitude: self.latitude, longitude: self.longitude)
+            self.phoneNumber = phoneNumber
+            self.isOpenNow = isOpenNow
+            self.openingHours = openingHours
+            self.amenities = amenities
+            self.priceRange = priceRange
+            self.averageRating = averageRating
+            self.totalNumberOfRatings = totalNumberOfRatings
+        }
 }
