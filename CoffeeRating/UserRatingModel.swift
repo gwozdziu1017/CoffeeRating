@@ -7,8 +7,7 @@
 import Foundation
 
 class RatingModel: Identifiable, Codable {
-    var id: UUID
-    
+    let id: UUID
     let rateId: Int
     let userId: Int
     let coffeeShopId: Int

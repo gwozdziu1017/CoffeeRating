@@ -7,7 +7,7 @@
 import Foundation
 import MapKit
 
-enum Ameniity: String, CaseIterable, Codable {
+enum Amenity: String, CaseIterable, Codable {
     case wifi
     case parking
     case takeaway
@@ -38,7 +38,7 @@ class CoffeeShopModel: Identifiable, Codable {
     let phoneNumber: String
     let openingHours: [DaySchedule]
     let isOpenNow: Bool
-    let amenities: Set<Ameniity> // set to have it always sorted the same way for all places
+    var amenities: Set<Amenity> // set to have it always sorted the same way for all places
     let priceRange: PriceRange
 
     var averageRating: Double
@@ -69,7 +69,7 @@ class CoffeeShopModel: Identifiable, Codable {
         phoneNumber = try container.decode(String.self, forKey: .phoneNumber)
         self.isOpenNow = try container.decode(Bool.self, forKey: .isOpenNow)
         openingHours = try container.decode([DaySchedule].self, forKey: .openingHours)
-        amenities = Set(try container.decode([Ameniity].self, forKey: .amenities))
+        amenities = Set(try container.decode([Amenity].self, forKey: .amenities))
         priceRange = try container.decode(PriceRange.self, forKey: .priceRange)
         averageRating = try container.decode(Double.self, forKey: .averageRating)
         totalNumberOfRatings = try container.decode(Int.self, forKey: .totalNumberOfRatings)
@@ -83,7 +83,7 @@ class CoffeeShopModel: Identifiable, Codable {
         phoneNumber: String,
         isOpenNow: Bool,
         openingHours: [DaySchedule],
-        amenities: Set<Ameniity>,
+        amenities: Set<Amenity>,
         priceRange: PriceRange,
         averageRating: Double,
         totalNumberOfRatings: Int) {

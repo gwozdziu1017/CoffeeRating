@@ -43,8 +43,12 @@ func getIsOpenNow(openingHours: DaySchedule) -> Bool {
 
     let dateFormatter = DateFormatter()
 
-    let openHourDate = Calendar.current.component(.hour, from: dateFormatter.date(from: openingHours.openingTime)!)
-    let closedHourDate = Calendar.current.component(.hour, from: dateFormatter.date(from: openingHours.closingTime)!)
+    let openHourDate = Calendar.current.component(
+        .hour, from: dateFormatter.date(
+            from: openingHours.openingTime)!)
+    let closedHourDate = Calendar.current.component(
+        .hour, from: dateFormatter.date(
+            from: openingHours.closingTime)!)
 
     return (hourNow >= openHourDate) && (hourNow < closedHourDate)
 }
