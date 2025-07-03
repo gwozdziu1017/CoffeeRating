@@ -13,6 +13,20 @@ enum Amenity: String, CaseIterable, Codable {
     case takeaway
     case outdoorSeating
     case petFriendly
+
+    var imageName: String {
+        switch self {
+        case .wifi: return "wifi"
+        case .parking: return "parkingsign"
+        case .takeaway: return "takeoutbag.and.cup.and.straw"
+        case .outdoorSeating: return "sun.horizon"
+        case .petFriendly: return "pawprint"
+        }
+    }
+}
+
+extension Amenity: Identifiable {
+    var id: String { self.rawValue }
 }
 
 enum PriceRange: Int, Codable {
@@ -22,10 +36,19 @@ enum PriceRange: Int, Codable {
     case premium = 4
 }
 
-struct DaySchedule: Codable {
+struct DaySchedule: Codable, Identifiable {
+    var id: String{
+        self.dayOfTheWeek
+    }
     let dayOfTheWeek : String
     let openingTime : String
     let closingTime : String
+}
+
+extension DaySchedule {
+    func print() -> String {
+        "Day: \(dayOfTheWeek), Opening: \(openingTime), Closing: \(closingTime)"
+    }
 }
 
 class CoffeeShopModel: Identifiable, Codable {
@@ -38,7 +61,7 @@ class CoffeeShopModel: Identifiable, Codable {
     let phoneNumber: String
     let openingHours: [DaySchedule]
     let isOpenNow: Bool
-    var amenities: Set<Amenity> // set to have it always sorted the same way for all places
+    var amenities: [Amenity]
     let priceRange: PriceRange
 
     var averageRating: Double
@@ -69,7 +92,7 @@ class CoffeeShopModel: Identifiable, Codable {
         phoneNumber = try container.decode(String.self, forKey: .phoneNumber)
         self.isOpenNow = try container.decode(Bool.self, forKey: .isOpenNow)
         openingHours = try container.decode([DaySchedule].self, forKey: .openingHours)
-        amenities = Set(try container.decode([Amenity].self, forKey: .amenities))
+        amenities = try container.decode([Amenity].self, forKey: .amenities)
         priceRange = try container.decode(PriceRange.self, forKey: .priceRange)
         averageRating = try container.decode(Double.self, forKey: .averageRating)
         totalNumberOfRatings = try container.decode(Int.self, forKey: .totalNumberOfRatings)
@@ -83,7 +106,7 @@ class CoffeeShopModel: Identifiable, Codable {
         phoneNumber: String,
         isOpenNow: Bool,
         openingHours: [DaySchedule],
-        amenities: Set<Amenity>,
+        amenities: [Amenity],
         priceRange: PriceRange,
         averageRating: Double,
         totalNumberOfRatings: Int) {
