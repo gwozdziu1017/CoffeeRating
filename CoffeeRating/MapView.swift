@@ -10,46 +10,24 @@ import MapKit
 
 
 struct MapView: View {
-    @State private var chengeView = false
-    @State var cameraPosition: MapCameraPosition =
-        .region(
-            .init(
-                center: CLLocationCoordinate2D(latitude: 51.7499, longitude: 19.3333),
-                latitudinalMeters: 1300,
-                longitudinalMeters: 1300)
-        )
     var locationManager = CLLocationManager()
+    var mapService = MapService()
     var body: some View {
-        Map(initialPosition: cameraPosition) {
-            Annotation("Temp location", coordinate: .temp, anchor: .bottom) {
-                Image(systemName: "location.fill")
-                    .onTapGesture {
-                        self.chengeView = true
-                    }
+        mapService.getMap()
+        //        .onAppear { // add "use localization" in project settings
+        //            locationManager.requestWhenInUseAuthorization()
+        //        }
+            .mapControls {
+                MapUserLocationButton()
+                MapCompass()
+                MapPitchToggle()
+                MapScaleView()
             }
-            UserAnnotation()
-        }
-        .onAppear {
-            locationManager.requestWhenInUseAuthorization()
-        }
-        .mapControls {
-            MapUserLocationButton()
-            MapCompass()
-            MapPitchToggle()
-            MapScaleView()
-        }
-        .mapStyle (
-            .standard (
-                elevation: .realistic))
-        chengeView ? AnyView(tempView_1) : AnyView(EmptyView())
+            .mapStyle (
+                .standard (
+                    elevation: .realistic))
+        mapService.chengeView ? AnyView(tempView_1) : AnyView(EmptyView())
     }
-}
-
-extension CLLocationCoordinate2D {
-    static let temp = CLLocationCoordinate2D(
-        latitude: 51.7499,
-        longitude: 19.3333
-    )
 }
 
 var tempView_1 : some View {
