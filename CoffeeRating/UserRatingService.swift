@@ -23,5 +23,5 @@ func addNewRate(coffeeShop: inout CoffeeShopModel, rate: Int) {
 */
 
 func addAmenities(coffeeShop: inout CoffeeShopModel, amenities: [Amenity]) {
-    coffeeShop.amenities.formUnion(amenities)
+    coffeeShop.amenities = amenities
 }
