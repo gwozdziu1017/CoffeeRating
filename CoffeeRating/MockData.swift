@@ -12,6 +12,7 @@ import Foundation
 import MapKit
 
 let mockedCoffeeShopRatings: [Int] = [5, 5, 5, 4, 3, 1, 1]
+let mockedCoffeeShopRatingAll5: [Int] = [5, 5, 5]
 let mockedOpeningHours: [DaySchedule] = [
     DaySchedule(dayOfTheWeek: "Monday", openingTime: "08:00", closingTime: "20:00"),
     DaySchedule(dayOfTheWeek: "Tuesday", openingTime: "12:00", closingTime: "18:00")

@@ -11,18 +11,17 @@ func getCoffeeShopDetailsView(coffeeShop: CoffeeShopModel) -> some View {
     ZStack{
         VStack {
             HStack{
-                getCoffeShopNameAddressPhoneNumberInfoView(coffeeShop: coffeeShop)
-                getCoffeeShopAverageRatngIsOpenNowView(coffeeShop: coffeeShop)
+                getCoffeShopNameAddressPhoneNumberView(coffeeShop: coffeeShop)
+                getCoffeeShopAverageRatngIsOpenNowView(averageRating: coffeeShop.averageRating, isOpenNow: coffeeShop.isOpenNow)
             }
-            getCoffeeShopOpeningHoursView(coffeeShop: coffeeShop)
-            getCoffeeShopPriceRangeAmenitiesView(coffeeShop: coffeeShop)
-            getCoffeeShopTotalNumberOfRatingsView(coffeeShop: coffeeShop)
-            temp(coffeeShop: coffeeShop)
+            getCoffeeShopOpeningHoursView(openingHours: coffeeShop.openingHours)
+            getCoffeeShopPriceRangeAmenitiesView(priceRange: coffeeShop.priceRange, amenities: coffeeShop.amenities)
+            getCoffeeShopTotalNumberOfRatingsView(totalNumberOfRatings: coffeeShop.totalNumberOfRatings)
         }
     }
 }
 
-func getCoffeShopNameAddressPhoneNumberInfoView(coffeeShop: CoffeeShopModel) -> some View {
+func getCoffeShopNameAddressPhoneNumberView(coffeeShop: CoffeeShopModel) -> some View {
     HStack {
         VStack(alignment: .leading) {
             Text(coffeeShop.name)
@@ -35,16 +34,15 @@ func getCoffeShopNameAddressPhoneNumberInfoView(coffeeShop: CoffeeShopModel) -> 
     }
 }
 
-func getCoffeeShopPriceRangeAmenitiesView(coffeeShop: CoffeeShopModel) -> some View {
+func getCoffeeShopPriceRangeAmenitiesView(priceRange: PriceRange, amenities: [Amenity]) -> some View {
     VStack(alignment: .leading){
-        Text("Price range: \(coffeeShop.priceRange)")
+        Text("Price range: \(priceRange)")
             .font(.caption)
         HStack {
             Text("Amenities:")
-            getAmenitiesAsImages(coffeeShop: coffeeShop)
+            getAmenitiesAsImages(amenities: amenities)
         }
     }
-    .padding(.top)
 }
 
 func getOpenNowText() -> Text {
@@ -59,65 +57,72 @@ func getClosedNowText() -> Text {
         .foregroundColor(.red)
 }
 
-func getCoffeeShopAverageRatngIsOpenNowView(coffeeShop: CoffeeShopModel) -> some View {
+func getCoffeeShopAverageRatngIsOpenNowView(averageRating: Double, isOpenNow: Bool) -> some View {
     VStack(alignment: .leading) {
         HStack {
             Text("Average rating:")
                 .font(.caption)
-            getAverageRatingAsStars(coffeeShop: coffeeShop)
+            getAverageRatingAsStars(averageRating: averageRating)
         }
-        coffeeShop.isOpenNow ? getOpenNowText() : getClosedNowText()
+        isOpenNow ? getOpenNowText() : getClosedNowText()
     }
 }
 
-func getCoffeeShopOpeningHoursView(coffeeShop: CoffeeShopModel) -> some View {
+func getCoffeeShopOpeningHoursView(openingHours: [DaySchedule]) -> some View {
     HStack{
         Text("Opening hours:")
-        getReadableOpeningHours(coffeeShop: coffeeShop)
+        getReadableOpeningHours(openingHours: openingHours)
     }
 }
 
-func getCoffeeShopTotalNumberOfRatingsView(coffeeShop: CoffeeShopModel) -> some View {
+func getCoffeeShopTotalNumberOfRatingsView(totalNumberOfRatings: Int) -> some View {
     VStack(alignment: .leading) {
-        Text("Total number of ratings: \(coffeeShop.totalNumberOfRatings)")
+        Text("Total number of ratings: \(totalNumberOfRatings)")
             .font(.caption)
     }
 }
 
-func getAverageRatingAsStars(coffeeShop: CoffeeShopModel) -> some View {
+func getImageStarFill() -> Image {
+    return Image(systemName: "star.fill")
+}
+
+func getImageStarEmpty() -> Image {
+    return Image(systemName: "star")
+}
+
+func getImageStarHalfFill() -> Image {
+    return Image(systemName: "star.leadinghalf.filled")
+}
+
+func getAverageRatingAsStars(averageRating: Double) -> some View {
     HStack {
-        let ratingScoreInt: Int = Int(coffeeShop.averageRating)
-        let isHalfStar: Bool = coffeeShop.averageRating > Double(ratingScoreInt) ? true : false
+        let ratingScoreInt: Int = Int(averageRating)
+        let isHalfStar: Bool = averageRating > Double(ratingScoreInt) ? true : false
         
-        ForEach(0..<5) {a in
-            if(a < ratingScoreInt) {
-                Image(systemName: "star.fill")
+        ForEach(0..<5) {starNo in
+            if(starNo < ratingScoreInt) {
+                getImageStarFill()
             }
-            if isHalfStar && a == ratingScoreInt{
-                Image(systemName: "star.leadinghalf.filled")
+            if isHalfStar && starNo == ratingScoreInt{
+                getImageStarHalfFill()
             }
-            if a > ratingScoreInt {
-                Image(systemName: "star")
+            if starNo > ratingScoreInt {
+                getImageStarEmpty()
             }
         }
     }
 }
-func temp(coffeeShop: CoffeeShopModel) -> some View {
-    VStack {
 
-    }
-}
-
-func getAmenitiesAsImages(coffeeShop: CoffeeShopModel) -> some View {
+func getAmenitiesAsImages(amenities: [Amenity]) -> some View {
     HStack {
-        ForEach(coffeeShop.amenities) { amenity in
+        ForEach(amenities) { amenity in
             Image(systemName: amenity.imageName)
         }
     }
 }
-func getReadableOpeningHours(coffeeShop: CoffeeShopModel) -> some View {
+func getReadableOpeningHours(openingHours: [DaySchedule]) -> some View {
     VStack{
-        ForEach(coffeeShop.openingHours) { day in
+        ForEach(openingHours) { day in
             Text(day.print())
         }
     }

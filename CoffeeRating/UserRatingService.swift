@@ -15,13 +15,6 @@ func addNewRate(coffeeShop: inout CoffeeShopModel, rate: Int) {
     coffeeShop.totalNumberOfRatings += 1
 }
 
-/*
- func updateRate(coffeeShop: inout CoffeeShopModel, newRate: Int) {
-    not sure if i'll be able to update it when i don't store array of ratings
-    becuse i'd need to remove old one and add new one
-}
-*/
-
 func addAmenities(coffeeShop: inout CoffeeShopModel, amenities: [Amenity]) {
     coffeeShop.amenities = amenities
 }

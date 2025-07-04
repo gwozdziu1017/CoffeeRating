@@ -33,9 +33,6 @@ struct MapView: View {
             }
             UserAnnotation()
         }
-        //        .onAppear { // add "use localization" in project settings
-        //            locationManager.requestWhenInUseAuthorization()
-        //        }
             .mapControls {
                 MapUserLocationButton()
                 MapCompass()
@@ -47,16 +44,6 @@ struct MapView: View {
                     elevation: .realistic))
         self.showDetails ? AnyView(getCoffeeShopDetailsView(coffeeShop: mockedCoffeeShop_1)) : AnyView(EmptyView())
     }
-}
-
-var tempView_1 : some View {
-    VStack {
-        Text("whatcha gonna do")
-    }
-}
-
-var tempView_2 : some View {
-    Text("2222")
 }
 
 #Preview {
