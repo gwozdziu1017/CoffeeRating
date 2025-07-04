@@ -8,7 +8,6 @@
 /*
  Mocked data
 */
-import Foundation
 import MapKit
 
 let mockedCoffeeShopRatings: [Int] = [5, 5, 5, 4, 3, 1, 1]
@@ -35,7 +34,7 @@ let mockedCoffeeShop_1: CoffeeShopModel =
         isOpenNow: getMockedIsOpenNow(isOpen: true),
         openingHours: mockedOpeningHours,
         amenities: [.wifi, .parking, .petFriendly],
-        priceRange: .moderate,
+        priceRange: .Moderate,
         averageRating: getAverageRating(ratingArray: mockedCoffeeShopRatings),
         totalNumberOfRatings: getTotalNumberOfRatings(ratingArray: mockedCoffeeShopRatings))
 
@@ -49,7 +48,7 @@ let mockedCoffeeShop_2: CoffeeShopModel =
         isOpenNow: getMockedIsOpenNow(isOpen: false),
         openingHours: mockedOpeningHours,
         amenities: [.wifi, .petFriendly],
-        priceRange: .premium,
+        priceRange: .Premium,
         averageRating: getAverageRating(ratingArray: mockedCoffeeShopRatings),
         totalNumberOfRatings: getTotalNumberOfRatings(ratingArray: mockedCoffeeShopRatings))
 

@@ -4,7 +4,6 @@
 //
 //  Created by Damian Gwóźdź on 27/06/2025.
 //
-import Foundation
 import MapKit
 
 enum Amenity: String, CaseIterable, Codable {
@@ -30,10 +29,10 @@ extension Amenity: Identifiable {
 }
 
 enum PriceRange: Int, Codable {
-    case budget = 1
-    case moderate = 2
-    case expensive = 3
-    case premium = 4
+    case Budget = 1
+    case Moderate = 2
+    case Expensive = 3
+    case Premium = 4
 }
 
 struct DaySchedule: Codable, Identifiable {
@@ -47,7 +46,7 @@ struct DaySchedule: Codable, Identifiable {
 
 extension DaySchedule {
     func print() -> String {
-        "Day: \(dayOfTheWeek), Opening: \(openingTime), Closing: \(closingTime)"
+        "\(dayOfTheWeek): \(openingTime) - \(closingTime)"
     }
 }
 
