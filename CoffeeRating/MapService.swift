@@ -15,6 +15,10 @@ let initialCameraPositionLongitude: Double = 19.3333
 let initialCameraPositionLatidiunalMeters: Double = 1300
 let initialCameraPositionLongitudinalMeters: Double = 1300
 
+func getCoffeeShopToDisplay(id: UUID) -> CoffeeShopModel? {
+    return mockedCoffeeShopList.first(where: { $0.id == id })
+}
+
 class MapService: ObservableObject {
     @Published var showDetails: Bool = false
     @Published var coffeeShopToDisplay: CoffeeShopModel?
@@ -38,9 +42,7 @@ class MapService: ObservableObject {
                 anchor: .bottom) {
                     Image(systemName: "mug.fill")
                         .onTapGesture {
-                            self.coffeeShopToDisplay = mockedCoffeeShopList.first {
-                                $0.id == mockedCoffeeShop_1.id
-                            }
+                            self.coffeeShopToDisplay = getCoffeeShopToDisplay(id: mockedCoffeeShop_1.id)
                             self.showDetails.toggle()
                         }
                 }
@@ -50,9 +52,7 @@ class MapService: ObservableObject {
                 anchor: .bottom) {
                     Image(systemName: "mug.fill")
                         .onTapGesture {
-                            self.coffeeShopToDisplay = mockedCoffeeShopList.first {
-                                $0.id == mockedCoffeeShop_3.id
-                            }
+                            self.coffeeShopToDisplay = getCoffeeShopToDisplay(id: mockedCoffeeShop_3.id)
                             self.showDetails.toggle()
                         }
                 }
