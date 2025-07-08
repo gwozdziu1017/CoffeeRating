@@ -10,39 +10,15 @@ import MapKit
 
 
 struct MapView: View {
-    var locationManager = CLLocationManager()
-    @State var showDetails = false
-    @State var cameraPosition: MapCameraPosition =
-        .region(
-            .init(
-                center: CLLocationCoordinate2D(latitude: 51.7499, longitude: 19.3333),
-                latitudinalMeters: 1300,
-                longitudinalMeters: 1300)
-        )
+    @StateObject private var mapService = MapService()
+
+    func getCoffeeShopDetailedView() -> some View {
+            getCoffeeShopDetailsView(coffeeShop: mapService.coffeeShopToDisplay!)
+    }
 
     var body: some View {
-        Map(initialPosition: cameraPosition) {
-            Annotation(mockedCoffeeShop_1.name, coordinate: coffeeShopCoordinate_1, anchor: .bottom) {
-                Image(systemName: "mug.fill")
-                    .onTapGesture {
-                        self.showDetails.toggle()
-                    }
-            }
-            Annotation(mockedCoffeeShop_2.name, coordinate: coffeeShopCoordinate_2, anchor: .bottom) {
-                Image(systemName: "mug.fill")
-            }
-            UserAnnotation()
-        }
-            .mapControls {
-                MapUserLocationButton()
-                MapCompass()
-                MapPitchToggle()
-                MapScaleView()
-            }
-            .mapStyle (
-                .standard (
-                    elevation: .realistic))
-        self.showDetails ? AnyView(getCoffeeShopDetailsView(coffeeShop: mockedCoffeeShop_1)) : AnyView(EmptyView())
+        mapService.getMap()
+        mapService.showDetails ? AnyView(getCoffeeShopDetailedView()) : AnyView(EmptyView())
     }
 }
 
