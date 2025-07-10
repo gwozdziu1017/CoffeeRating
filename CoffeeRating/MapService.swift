@@ -15,10 +15,6 @@ let initialCameraPositionLongitude: Double = 19.3333
 let initialCameraPositionLatidiunalMeters: Double = 1300
 let initialCameraPositionLongitudinalMeters: Double = 1300
 
-func getCoffeeShopToDisplay(id: UUID) -> CoffeeShopModel? {
-    return mockedCoffeeShopList.first(where: { $0.id == id })
-}
-
 class MapService: ObservableObject {
     @Published var showDetails: Bool = false
     @Published var coffeeShopToDisplay: CoffeeShopModel?
@@ -33,29 +29,21 @@ class MapService: ObservableObject {
                 latitudinalMeters: initialCameraPositionLatidiunalMeters,
                 longitudinalMeters: initialCameraPositionLongitudinalMeters)
         )
+
     func getMap() -> some View {
         Map(initialPosition: cameraPosition) {
-            
-            Annotation (
-                mockedCoffeeShop_1.name,
-                coordinate: coffeeShopCoordinate_1,
-                anchor: .bottom) {
-                    Image(systemName: "mug.fill")
-                        .onTapGesture {
-                            self.coffeeShopToDisplay = getCoffeeShopToDisplay(id: mockedCoffeeShop_1.id)
-                            self.showDetails.toggle()
-                        }
-                }
-            Annotation (
-                mockedCoffeeShop_3.name,
-                coordinate: coffeeShopCoordinate_3,
-                anchor: .bottom) {
-                    Image(systemName: "mug.fill")
-                        .onTapGesture {
-                            self.coffeeShopToDisplay = getCoffeeShopToDisplay(id: mockedCoffeeShop_3.id)
-                            self.showDetails.toggle()
-                        }
-                }
+            ForEach(mockedCoffeeShopList) { shop in
+                Annotation (
+                    shop.name,
+                    coordinate: CLLocationCoordinate2D(latitude: shop.latitude, longitude: shop.longitude),
+                    anchor: .bottom) {
+                        Image(systemName: "mug.fill")
+                            .onTapGesture {
+                                self.coffeeShopToDisplay = shop
+                                self.showDetails.toggle()
+                            }
+                    }
+            }
         }
         .mapControls {
             MapUserLocationButton()
