@@ -15,6 +15,7 @@ let initialCameraPositionLongitude: Double = 19.3333
 let initialCameraPositionLatidiunalMeters: Double = 1300
 let initialCameraPositionLongitudinalMeters: Double = 1300
 
+@MainActor
 class MapService: ObservableObject {
     @Published var showDetails: Bool = false
     @Published var coffeeShopToDisplay: CoffeeShopModel?
