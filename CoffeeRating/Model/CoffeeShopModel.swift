@@ -28,11 +28,23 @@ extension Amenity: Identifiable {
     var id: String { self.rawValue }
 }
 
-enum PriceRange: Int, Codable {
-    case Budget = 1
-    case Moderate = 2
-    case Expensive = 3
-    case Premium = 4
+enum PriceRange: String, Codable, CaseIterable, Identifiable {
+    var id: String {
+        self.rawValue
+    }
+    case budget
+    case moderate
+    case expensive
+    case premium
+
+    var PriceRange: String {
+        switch self {
+        case .budget: return "Budget"
+        case .moderate: return "Moderate"
+        case .expensive: return "Expensive"
+        case .premium: return "Premium"
+        }
+    }
 }
 
 struct DaySchedule: Codable, Identifiable {
@@ -61,7 +73,7 @@ class CoffeeShopModel: Identifiable, Codable {
     let openingHours: [DaySchedule]
     let isOpenNow: Bool
     var amenities: [Amenity]
-    let priceRange: PriceRange
+    var priceRange: PriceRange
 
     var averageRating: Double
     var totalNumberOfRatings: Int
@@ -123,4 +135,20 @@ class CoffeeShopModel: Identifiable, Codable {
             self.averageRating = averageRating
             self.totalNumberOfRatings = totalNumberOfRatings
         }
+
+    init() { // only for temporary testing
+        self.id = UUID()
+        self.name = ""
+        self.address = ""
+        self.latitude = 0.0
+        self.longitude = 0.0
+        self.coordinate = CLLocationCoordinate2D(latitude: self.latitude, longitude: self.longitude)
+        self.phoneNumber = ""
+        self.isOpenNow = false
+        self.openingHours = []
+        self.amenities = []
+        self.priceRange = .budget
+        self.averageRating = 0.0
+        self.totalNumberOfRatings = 0
+    }
 }

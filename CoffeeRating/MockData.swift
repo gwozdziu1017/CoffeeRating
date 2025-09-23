@@ -34,8 +34,9 @@ func getMockedIsOpenNow(isOpen: Bool) -> Bool {
 let coffeeShopCoordinate_1: CLLocationCoordinate2D = .init(latitude: 51.7499, longitude: 19.3333)
 let coffeeShopCoordinate_2: CLLocationCoordinate2D = .init(latitude: 51.746925, longitude: 19.335651)
 let coffeeShopCoordinate_3: CLLocationCoordinate2D = .init(latitude: 51.75935, longitude: 19.35252)
+let coffeeShopCoordinate_4: CLLocationCoordinate2D = .init(latitude: 51.75662, longitude: 19.35784)
 
-let coffeeShopCoordinatesList : [CLLocationCoordinate2D] = [coffeeShopCoordinate_1, coffeeShopCoordinate_2, coffeeShopCoordinate_3]
+let coffeeShopCoordinatesList : [CLLocationCoordinate2D] = [coffeeShopCoordinate_1, coffeeShopCoordinate_2, coffeeShopCoordinate_3, coffeeShopCoordinate_4]
 
 let mockedCoffeeShop_1: CoffeeShopModel =
     .init(
@@ -47,7 +48,7 @@ let mockedCoffeeShop_1: CoffeeShopModel =
         isOpenNow: getMockedIsOpenNow(isOpen: true),
         openingHours: mockedOpeningHours,
         amenities: [.wifi, .parking, .petFriendly],
-        priceRange: .Moderate,
+        priceRange: .moderate,
         averageRating: getAverageRating(ratingArray: mockedCoffeeShopRatings),
         totalNumberOfRatings: getTotalNumberOfRatings(ratingArray: mockedCoffeeShopRatings))
 
@@ -61,7 +62,7 @@ let mockedCoffeeShop_2: CoffeeShopModel =
         isOpenNow: getMockedIsOpenNow(isOpen: false),
         openingHours: mockedOpeningHours,
         amenities: [.wifi, .petFriendly],
-        priceRange: .Premium,
+        priceRange: .premium,
         averageRating: getAverageRating(ratingArray: mockedCoffeeShopRatings),
         totalNumberOfRatings: getTotalNumberOfRatings(ratingArray: mockedCoffeeShopRatings))
 
@@ -75,10 +76,23 @@ let mockedCoffeeShop_3: CoffeeShopModel =
         isOpenNow: getMockedIsOpenNow(isOpen: false),
         openingHours: mockedOpeningHoursOpenedEveryDay,
         amenities: [],
-        priceRange: .Budget,
+        priceRange: .budget,
         averageRating: getAverageRating(ratingArray: mockedCoffeeShopRatings),
         totalNumberOfRatings: getTotalNumberOfRatings(ratingArray: mockedCoffeeShopRatings))
 
-let mockedCoffeeShopList : [CoffeeShopModel] = [mockedCoffeeShop_1, mockedCoffeeShop_2, mockedCoffeeShop_3]
+let mockedCoffeeShop_4: CoffeeShopModel =
+    .init(
+        name: "Dom",
+        address: "Kawkałka 123",
+        latitude: coffeeShopCoordinatesList[3].latitude,
+        longitude: coffeeShopCoordinatesList[3].longitude,
+        phoneNumber: "(555) 123-4567",
+        isOpenNow: getMockedIsOpenNow(isOpen: false),
+        openingHours: mockedOpeningHoursOpenedEveryDay,
+        amenities: [.petFriendly],
+        priceRange: .premium,
+        averageRating: getAverageRating(ratingArray: mockedCoffeeShopRatingAll5),
+        totalNumberOfRatings: getTotalNumberOfRatings(ratingArray: mockedCoffeeShopRatings))
+let mockedCoffeeShopList : [CoffeeShopModel] = [mockedCoffeeShop_1, mockedCoffeeShop_2, mockedCoffeeShop_3, mockedCoffeeShop_4]
 
 

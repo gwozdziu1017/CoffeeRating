@@ -1,24 +1,33 @@
 //
-//  CoffeeShopView.swift
+//  CoffeeShopService.swift
 //  CoffeeRating
 //
-//  Created by Damian Gwóźdź on 03/07/2025.
+//  Created by Damian Gwóźdź on 27/06/2025.
 //
 import SwiftUI
 
-// coffee shop details
-func getCoffeeShopDetailsView(coffeeShop: CoffeeShopModel) -> some View {
-    ZStack{
-        VStack {
-            HStack{
-                getCoffeShopNameAddressPhoneNumberView(coffeeShop: coffeeShop)
-                getCoffeeShopAverageRatngIsOpenNowView(averageRating: coffeeShop.averageRating, isOpenNow: coffeeShop.isOpenNow)
-            }
-            getCoffeeShopOpeningHoursView(openingHours: coffeeShop.openingHours)
-            getCoffeeShopPriceRangeAmenitiesView(priceRange: coffeeShop.priceRange, amenities: coffeeShop.amenities)
-            getCoffeeShopTotalNumberOfRatingsView(totalNumberOfRatings: coffeeShop.totalNumberOfRatings)
-        }
-    }
+func getAverageRating(ratingArray: [Int]) -> Double {
+    return Double(ratingArray.reduce(0, +)) / Double(ratingArray.count)
+}
+
+func getTotalNumberOfRatings(ratingArray: [Int]) -> Int {
+    return ratingArray.count
+}
+
+func getIsOpenNow(openingHours: DaySchedule) -> Bool {
+    let date = Date()
+    let hourNow = Calendar.current.component(.hour, from: date)
+
+    let dateFormatter = DateFormatter()
+
+    let openHourDate = Calendar.current.component(
+        .hour, from: dateFormatter.date(
+            from: openingHours.openingTime)!)
+    let closedHourDate = Calendar.current.component(
+        .hour, from: dateFormatter.date(
+            from: openingHours.closingTime)!)
+
+    return (hourNow >= openHourDate) && (hourNow < closedHourDate)
 }
 
 func getCoffeShopNameAddressPhoneNumberView(coffeeShop: CoffeeShopModel) -> some View {
@@ -126,8 +135,4 @@ func getReadableOpeningHours(openingHours: [DaySchedule]) -> some View {
             Text(day.print())
         }
     }
-}
-
-#Preview {
-    getCoffeeShopDetailsView(coffeeShop: mockedCoffeeShop_1)
 }
